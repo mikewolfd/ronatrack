@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
 from django.utils.translation import ugettext_lazy as _
 from typedmodels.models import TypedModel
 from mptt.models import MPTTModel, TreeForeignKey
 from model_utils.models import TimeStampedModel
+
 User = get_user_model()
 
 
@@ -18,8 +18,10 @@ class Survey(models.Model):
     class Meta:
         unique_together = ['name', 'version']
 
+
 class Catageory(models.Model):
     name = models.CharField(max_length=200)
+
 
 class AnswerType(TypedModel):
     default_choice = {}
@@ -74,7 +76,6 @@ class Question(MPTTModel):
         super(Question, self).save(*args, **kwargs)
 
 
-
 class SurveyItem(MPTTModel):
     order = models.IntegerField(default=0)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -86,7 +87,16 @@ class SurveyItem(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['order']
-        
+
+    def save(self, *args, **kwargs):
+        if not self.order:
+            if parent:
+                self.order = self.parent.children.count() + 1
+            else:
+                self.order = self.survey.surveyitem_set.count() + 1
+        super(SurveyItem, self).save(*args, **kwargs)
+
+
 class SurveyItemRecord(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     item = models.ForeignKey(SurveyItem, on_delete=models.PROTECT)

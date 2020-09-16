@@ -1,0 +1,14 @@
+Questions,field,catageory
+What zipcode do you live in?,integer,Circumstantial 
+Have you had Covid-19 symptoms?,boolean,Circumstantial 
+Have you ever gotten tested for COVID-19?,boolean,Circumstantial 
+Do you have underlying medical complications?,boolean,Circumstantial 
+How often do you wear a mask?,choice,Behavioral
+How do you get your groceries?,multiple choice,Behavioral
+Do you carry around hand sanitizer?,boolean,Behavioral
+How many people do you live with?,integer,Circumstantial 
+How many people does your household come into close contact within a week?,integer,Circumstantial 
+How do you feel about your household covid precautions?,choice,Perceptual
+Do you have to go into work?,boolean,Circumstantial 
+How often have you left your house in the past 2 weeks?,integer,Circumstantial 
+How safe do you feel when you leave your home?,choice,Perceptual
